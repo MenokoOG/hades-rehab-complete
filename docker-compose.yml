@@ -1,0 +1,35 @@
+version: '3.8'
+services:
+  mongo:
+    image: mongo:6
+    restart: unless-stopped
+    volumes:
+      - mongo-data:/data/db
+    ports:
+      - "27017:27017"
+  nest-proxy:
+    build: ./nest-proxy
+    ports:
+      - "3000:3000"
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/hades
+      - SANDBOX_URL=http://sandbox-model:8000/replay
+      - SUPABASE_SERVICE_KEY=changeme_service_key
+      - SUPABASE_JWKS_URL=  # set to your Supabase JWKS certs URL in production e.g. https://<proj>.supabase.co/auth/v1/certs
+      - SUPABASE_URL=  # set to your supabase project url
+    depends_on:
+      - mongo
+  sandbox-model:
+    build: ./sandbox-model
+    ports:
+      - "8000:8000"
+  triage-ui:
+    build: ./triage-ui
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_URL=http://localhost:3000
+      - VITE_SUPABASE_URL=
+      - VITE_SUPABASE_ANON_KEY=
+volumes:
+  mongo-data:
