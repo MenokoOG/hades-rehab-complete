@@ -33,8 +33,5 @@ Security notes
 - SUPABASE_SERVICE_KEY must be kept secret (server-side only). Do not commit it.
 - For production: configure SUPABASE_JWKS_URL and SUPABASE_SERVICE_KEY. Ensure TLS and proper secret storage.
 
-Next actions you can ask me to do:
-- Create a migration SQL file to create `triage_events` and `user_roles` tables in Supabase.
-- Add a cron job or webhook processor to forward high-severity triage events to Slack/email.
-- Wire repair-workbench to a GPU-backed container and provide example LoRA training on a small dataset.
+
 
